@@ -118,18 +118,18 @@ void help_cmd_pl() {
 }
 
 void help_cmd_en() {
-    printf("Microshell Project\n");
-    printf("Author: Adam Knapik\n\n");
-    printf("List of commands:\n");
-    printf("help - information about program\n");
-    printf("pwd - print working directory\n");
-    printf("cd - change directory\n");
-    printf("cp - copy a files\n");
-    printf("mv - move (change name) file\n");
-    printf("cat - concatenate, display the contents of a file\n");
-    printf("history - history command\n");
-    printf("logname or whoami - display user name\n");
-    printf("exit - exit\n");
+	printf("Microshell Project\n");
+	printf("Author: Adam Knapik\n\n");
+	printf("List of commands:\n");
+	printf("help - information about program\n");
+	printf("pwd - print working directory\n");
+	printf("cd - change directory\n");
+	printf("cp - copy a files\n");
+	printf("mv - move (change name) file\n");
+	printf("cat - concatenate, display the contents of a file\n");
+	printf("history - history command\n");
+	printf("logname or whoami - display user name\n");
+	printf("exit - exit\n");
 }
 
 void pwd_cmd() {
@@ -144,25 +144,25 @@ void cd_cmd() {
 	}
 
 	else if(tokens_number == 2) {
-        if(strcmp(tokens[1], "-") == 0){
-            if(chdir(path2) == -1) {
+       		if(strcmp(tokens[1], "-") == 0){
+            		if(chdir(path2) == -1) {
 			    perror("error cd command");
-		    }
+		    	}
 
-		    else {
-                printf("\033[1;34m");
-                printf("%s\n",path2);
-                printf("\033[0m");
+		    	else {
+				printf("\033[1;34m");
+				printf("%s\n",path2);
+				printf("\033[0m");
 
-                memset(path2, '\0', sizeof(path2));
+				memset(path2, '\0', sizeof(path2));
 
-                for(i = 0; i < strlen(path); i++) {
-                    path2[i] = path[i];
-                }
+				for(i = 0; i < strlen(path); i++) {
+				    path2[i] = path[i];
+				}
 
-		    	getcwd(path,sizeof path);
-		    }
-        }
+		    		getcwd(path,sizeof path);
+			}
+       		}
 
 		else if(strcmp(tokens[1], "~") == 0) {
 			if(chdir(getenv("HOME")) == -1) {
@@ -175,6 +175,7 @@ void cd_cmd() {
 				for(i=0; i<strlen(path); i++) {
 					path2[i] = path[i];
 				}
+				
 				getcwd(path, sizeof path);
 			}
 
@@ -185,11 +186,11 @@ void cd_cmd() {
 		}
 
 		else {
-            memset(path2, '\0', sizeof(path2));
+            		memset(path2, '\0', sizeof(path2));
 
-            for(i = 0; i < strlen(path); i++) {
-                path2[i] = path[i];
-            }
+			for(i = 0; i < strlen(path); i++) {
+				path2[i] = path[i];
+			}
 
 			getcwd(path,sizeof path);
 		}
@@ -201,13 +202,13 @@ void cd_cmd() {
 		}
 
 		else {
-            memset(path2, '\0', sizeof(path2));
+			memset(path2, '\0', sizeof(path2));
 
-            for(i = 0; i < strlen(path); i++) {
-                path2[i] = path[i];
-            }
+			for(i = 0; i < strlen(path); i++) {
+				path2[i] = path[i];
+			}
 
-            getcwd(path,sizeof path);
+			getcwd(path,sizeof path);
 		}
 	}
 }
@@ -216,33 +217,33 @@ void cp_mv_cmd() {
 	if(tokens_number == 3) {
 		fd_file = open(tokens[1], O_RDONLY);
 
-        if(fd_file != -1) {
-        	fd_new_file = open(tokens[2], O_WRONLY|O_CREAT|O_TRUNC,0666);
+		if(fd_file != -1) {
+			fd_new_file = open(tokens[2], O_WRONLY|O_CREAT|O_TRUNC,0666);
 
-            if(fd_new_file != -1) {
-                while((num = read(fd_file, &buffer_text, BUFFER_SIZE)) > 0) {
-                    write(fd_new_file, &buffer_text, num);
-                }
+			if(fd_new_file != -1) {
+				while((num = read(fd_file, &buffer_text, BUFFER_SIZE)) > 0) {
+				write(fd_new_file, &buffer_text, num);
+				}
 
-                close(fd_file);
-                close(fd_new_file);
+				close(fd_file);
+				close(fd_new_file);
 
 				if(strcmp(command, "mv") == 0) {
 					remove(tokens[1]);
 				}
-            }
+			}
 
-            else {
-                perror("error creating file");
-            }
-        }
+			else {
+				perror("error creating file");
+			}
+		}
 
-        else {
+		else {
 			printf("\033[1;31m");
 			printf("%s: cannot stat '%s': No such file or directory\n", command, tokens[1]);
 			printf("\033[0m");
-        }
-    }
+		}
+	}
 
 	else if(tokens_number > 3) {
 		printf("\033[1;31m");
@@ -250,17 +251,17 @@ void cp_mv_cmd() {
 		printf("\033[0m");
 	}
 
-    else if(tokens_number == 2) {
+   	 else if(tokens_number == 2) {
 		printf("\033[1;31m");
-       	printf("%s: missing destination file operand after '%s'\n",command,tokens[1]);
+       		printf("%s: missing destination file operand after '%s'\n",command,tokens[1]);
 		printf("\033[0m");
-    }
+	}
 
-    else {
+	else {
 		printf("\033[1;31m");
 		printf("%s: missing file operand\n",command);
 		printf("\033[0m");
-    }
+	}
 }
 
 void cat_cmd() {
@@ -277,8 +278,8 @@ void cat_cmd() {
 
 			if(fd_file == -1) {
 				printf("\033[1;31m");
-            	printf("error open file: %s\n",tokens[i]);
-            	printf("\033[0m");
+            			printf("error open file: %s\n",tokens[i]);
+            			printf("\033[0m");
 			}
 
 			else {
@@ -316,6 +317,7 @@ void history_cmd() {
 				hisotry_error = 1;
 				break;
 			}
+			
 			chck_ascii++;
 		}
 
@@ -342,9 +344,9 @@ void login_cmd() {
 	}
 
 	else {
-    	printf("\033[1;34m");
+    		printf("\033[1;34m");
 		printf("%s\n",getenv("USER"));
-    	printf("\033[0m");
+    		printf("\033[0m");
 	}
 }
 
@@ -373,7 +375,7 @@ int main() {
 		memset(command, '\0', sizeof(command));
 		memset(buffer, '\0', sizeof(buffer));
 		memset(arguments, '\0', sizeof(arguments));
-        for(i = 0; i < tokens_number; i++) {
+        	for(i = 0; i < tokens_number; i++) {
 			memset(tokens[i], '\0', sizeof(tokens[i]));
 		}
 
@@ -383,7 +385,7 @@ int main() {
 		printf("\033[0m");
 		printf(":");
 		printf("\033[1;32m");
-       	printf("%s",path);
+       		printf("%s",path);
 		printf("\033[0m");
 		printf("]\n$ ");
 
@@ -406,11 +408,11 @@ int main() {
 
 		char_group_tokens(buffer);
 
-    	if(strcmp(command, "help") == 0) {
-        	help_cmd_pl();
-        	printf("\n\n\n\n");
-        	help_cmd_en();
-        }
+    		if(strcmp(command, "help") == 0) {
+			help_cmd_pl();
+			printf("\n\n\n\n");
+			help_cmd_en();
+        	}
 
 		else if(strcmp(command, "pwd") == 0) {
         	pwd_cmd();
@@ -420,9 +422,9 @@ int main() {
 			cd_cmd();
 		}
 
-        else if(strcmp(command, "cp") == 0) {
-            cp_mv_cmd();
-        }
+		else if(strcmp(command, "cp") == 0) {
+		    cp_mv_cmd();
+		}
 
 		else if(strcmp(command, "mv") == 0) {
 			cp_mv_cmd();
